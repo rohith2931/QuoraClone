@@ -1,0 +1,34 @@
+{%extends "main/base.html"%}
+{% block content%}
+{% for ques in questions %}
+
+<div class="card bg-light mt-2">
+    <div class="card-body">
+        <h3 class="card-title"> <a href="{%url 'question' ques.id%}">{{ques.title}}</a></h3>
+        <h6 class="card-subtitle mb-2 text-muted">Posted by
+            <strong>{{ ques.author.username|capfirst }}</strong> on
+            <strong> {{ ques.asked_on|date:"F d,Y" }} </strong>
+        </h6>
+        <p class="card-text">{{ ques.description }}</p>
+        <div>
+            <p class="card-text">Likes: {{ ques.votes.count }}</p>
+            {% if ques.user_liked%}
+            <form action="{%url 'upvoke-question' ques.id %}">
+                <button type="submit" class="btn btn-danger">Down Voke</button>
+            </form>
+            {%else%}
+
+
+            <form action="{%url 'upvoke-question' ques.id %}">
+                <button type="submit" class="btn btn-success">Up Voke</button>
+            </form>
+            {%endif%}
+            <form action="{%url 'post-answer' ques.id %}" class="mt-2 ">
+                <button type="submit" class="btn btn-secondary">post answer</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{%endblock content%}`
