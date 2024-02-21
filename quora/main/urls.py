@@ -18,7 +18,10 @@ urlpatterns = [
     path('profile/',profile,name='profile'),
     path('question/new/', QuestionCreateView.as_view(),name='create-question'),
     path('question/<int:id>',question_detail,name='question'),
+    # Fix post-answer url
     path('post-answer/<int:qid>',post_answer,name='post-answer'),
+
+    # upvoke -> upvote
     path('upvoke-question/<int:qid>',upvoke_question,name='upvoke-question'),
     path('upvoke-answer/<int:aid>',upvoke_answer,name='upvoke-answer')
 ]
