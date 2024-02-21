@@ -10,7 +10,8 @@ from .forms import UserRegistration, AnswerForm
 
 def home(request):
     # TODO: use prefetch_related
-    questions = Question.objects.all()
+    # Done
+    questions = Question.objects.prefetch_related('votes').all()
     for question in questions:
         question.user_liked = question.votes.filter(id=request.user.id).exists()
     return render(request, "main/home.html", {"questions": questions})
@@ -57,6 +58,8 @@ def question_detail(request, id):
 
     except Question.DoesNotExist as e:
         # TODO: Display error message on the UI
+        # Done
+        messages.warning(request,"Sorry, The page you requested does not exist.")
         print(e.__str__())
         return redirect(to="/")
 
@@ -83,6 +86,8 @@ def post_answer(request, qid):
         # form.answer = user_answer.answer
     except Question.DoesNotExist:
         # TODO: Display error message on the UI
+        # Done
+        messages.warning(request,"Sorry, The page you requested does not exist.")
         return redirect("/")
 
     if request.method == "POST":
@@ -100,10 +105,13 @@ def post_answer(request, qid):
                     answer=new_answer, question=question, answered_by=request.user
                 )
             return redirect(reverse("question", args=[qid]))
+        
     if request.method == "GET":
-        form = AnswerForm()
+        form = None
         if user_answer:
-            form.answer = user_answer.answer
+            form=AnswerForm({'answer':user_answer.answer})
+        else:
+            form=AnswerForm()
 
     return render(
         request, "main/post_answer.html", {"form": form, "question": question}
@@ -111,7 +119,7 @@ def post_answer(request, qid):
 
 
 @login_required
-def upvoke_question(request, qid):
+def upvote_question(request, qid):
     redirect_to = request.GET.get("redirect_to")
     print(redirect_to)
     if not redirect_to:
@@ -131,7 +139,7 @@ def upvoke_question(request, qid):
 
 
 @login_required
-def upvoke_answer(request, aid):
+def upvote_answer(request, aid):
     redirect_to = request.GET.get("redirect_to")
     if not redirect_to:
         redirect_to = "/"

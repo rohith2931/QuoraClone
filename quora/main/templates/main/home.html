@@ -13,19 +13,11 @@
         <div>
             <p class="card-text">Likes: {{ ques.votes.count }}</p>
             {% if ques.user_liked%}
-            <form action="{%url 'upvoke-question' ques.id %}">
-                <button type="submit" class="btn btn-danger">Down Voke</button>
-            </form>
+            <a href="{%url 'upvote-question' ques.id%}" class="btn btn-danger mt-2">Down Vote</a>
             {%else%}
-
-
-            <form action="{%url 'upvoke-question' ques.id %}">
-                <button type="submit" class="btn btn-success">Up Voke</button>
-            </form>
+            <a href="{%url 'upvote-question' ques.id%}" class="btn btn-success mt-2">Up Vote</a>
             {%endif%}
-            <form action="{%url 'post-answer' ques.id %}" class="mt-2 ">
-                <button type="submit" class="btn btn-secondary">post answer</button>
-            </form>
+            <a href="{%url 'answer' ques.id%}" class="btn btn-secondary mt-2">Answer</a>
         </div>
     </div>
 </div>

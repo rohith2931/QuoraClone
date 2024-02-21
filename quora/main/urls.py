@@ -5,8 +5,8 @@ from .views import (home,
     question_detail,
     QuestionCreateView,
     post_answer,
-    upvoke_question,
-    upvoke_answer,
+    upvote_question,
+    upvote_answer,
     profile
 )
 
@@ -17,11 +17,13 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='main/logout.html'),name="logout"),
     path('profile/',profile,name='profile'),
     path('question/new/', QuestionCreateView.as_view(),name='create-question'),
-    path('question/<int:id>',question_detail,name='question'),
+    path('question/<int:id>/',question_detail,name='question'),
     # Fix post-answer url
-    path('post-answer/<int:qid>',post_answer,name='post-answer'),
+    # Done
+    path('question/<int:qid>/answer/',post_answer,name='answer'),
 
-    # upvoke -> upvote
-    path('upvoke-question/<int:qid>',upvoke_question,name='upvoke-question'),
-    path('upvoke-answer/<int:aid>',upvoke_answer,name='upvoke-answer')
+    # upvoke -> upvote 
+    # Done
+    path('upvote-question/<int:qid>/',upvote_question,name='upvote-question'),
+    path('upvote-answer/<int:aid>/',upvote_answer,name='upvote-answer')
 ]

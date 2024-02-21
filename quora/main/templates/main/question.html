@@ -14,21 +14,19 @@
             <div>
                 <p class="card-text">Likes: {{ question.votes.count }}</p>
                 {% if question.user_liked %}
-                <form action="{%url 'upvoke-question' question.id %}">
+                <form action="{%url 'upvote-question' question.id %}">
+                    {% csrf_token %}
                     <input type="hidden" name="redirect_to" value={{request.path}}>
-                    <button type="submit" class="btn btn-danger">Down Voke</button>
+                    <button type="submit" class="btn btn-danger">Down Vote</button>
                 </form>
                 {%else%}
-
-
-                <form action="{%url 'upvoke-question' question.id %}">
+                <form action="{%url 'upvote-question' question.id %}">
+                    {% csrf_token %}
                     <input type="hidden" name="redirect_to" value={{request.path}}>
-                    <button type="submit" class="btn btn-success">Up Voke</button>
+                    <button type="submit" class="btn btn-success">Up Vote</button>
                 </form>
                 {%endif%}
-                <form action="{%url 'post-answer' question.id %}" class="mt-2 ">
-                    <button type="submit" class="btn btn-secondary">post answer</button>
-                </form>
+                <a href="{%url 'answer' question.id%}" class="btn btn-secondary mt-2">Answer</a>
             </div>
     </div>
 </div>
@@ -46,14 +44,14 @@
                 <p class="card-text">Likes: {{ ans.votes.count }}</p>
 
                 {% if ans.user_liked %}
-                <form action="{%url 'upvoke-answer' ans.id %}">
+                <form action="{%url 'upvote-answer' ans.id %}">
                     <input type="hidden" name="redirect_to" value={{request.path}}>
                     <button type="submit" class="btn btn-danger">Down Voke</button>
                 </form>
                 {%else%}
 
 
-                <form action="{%url 'upvoke-answer' ans.id %}">
+                <form action="{%url 'upvote-answer' ans.id %}">
                     <input type="hidden" name="redirect_to" value={{request.path}}>
                     <button type="submit" class="btn btn-success">Up Voke</button>
                 </form>
