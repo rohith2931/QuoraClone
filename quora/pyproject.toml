@@ -1,0 +1,15 @@
+[tool.black]
+# Maximum line length
+line-length = 88
+
+target-version = ['py37']
+include = '\.pyi?$'
+
+# Directories to exclude from formatting
+exclude = '''
+/(
+    \.git
+    |\.venv
+)/
+'''
+

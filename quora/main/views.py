@@ -11,7 +11,7 @@ from .forms import UserRegistration, AnswerForm
 def home(request):
     # TODO: use prefetch_related
     # Done
-    questions = Question.objects.prefetch_related('votes').all()
+    questions = Question.objects.prefetch_related("votes").all()
     for question in questions:
         question.user_liked = question.votes.filter(id=request.user.id).exists()
     return render(request, "main/home.html", {"questions": questions})
@@ -59,7 +59,7 @@ def question_detail(request, id):
     except Question.DoesNotExist as e:
         # TODO: Display error message on the UI
         # Done
-        messages.warning(request,"Sorry, The page you requested does not exist.")
+        messages.warning(request, "Sorry, The page you requested does not exist.")
         print(e.__str__())
         return redirect(to="/")
 
@@ -87,7 +87,7 @@ def post_answer(request, qid):
     except Question.DoesNotExist:
         # TODO: Display error message on the UI
         # Done
-        messages.warning(request,"Sorry, The page you requested does not exist.")
+        messages.warning(request, "Sorry, The page you requested does not exist.")
         return redirect("/")
 
     if request.method == "POST":
@@ -105,13 +105,13 @@ def post_answer(request, qid):
                     answer=new_answer, question=question, answered_by=request.user
                 )
             return redirect(reverse("question", args=[qid]))
-        
+
     if request.method == "GET":
         form = None
         if user_answer:
-            form=AnswerForm({'answer':user_answer.answer})
+            form = AnswerForm({"answer": user_answer.answer})
         else:
-            form=AnswerForm()
+            form = AnswerForm()
 
     return render(
         request, "main/post_answer.html", {"form": form, "question": question}
